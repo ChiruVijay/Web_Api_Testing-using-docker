@@ -8,7 +8,7 @@ import net.serenitybdd.cucumber.CucumberWithSerenity;
 @RunWith(CucumberWithSerenity.class)
 
 
-@CucumberOptions(features = "src/test/resources/features", tags = {"@Login_api"})
+@CucumberOptions(features = "src/test/resources/features", tags = {"@Test_Create_user_login_api"})
 
 
 public class CukesTest {
