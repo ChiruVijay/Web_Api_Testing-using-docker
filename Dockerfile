@@ -1,14 +1,9 @@
-FROM demo/oracle-java:8
+FROM openjdk:8-jre-slim
 
-ENV MAVEN_VERSION 3.3.9
+# Add the jar with all the dependencies
+# Maven creates container-test.jar in the target folder of my workspace.
+# We need this in some location - say - /usr/share/tag folder of the container
+ADD  target/container-test.jar /usr/share/tag/container-test.jar
 
-RUN mkdir -p /usr/share/maven \
-  && curl -fsSL http://apache.osuosl.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
-    | tar -xzC /usr/share/maven --strip-components=1 \
-  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
-
-ENV MAVEN_HOME /usr/share/maven
-
-VOLUME /root/.m2
-
-CMD ["mvn"] 
+# Command line to execute the test
+ENTRYPOINT ["/usr/bin/java", "-cp", "/usr/share/tag/container-test.jar", "org.testng.TestNG", "-testclass", "com.testautomationguru.container.test.GoogleTest"] 
